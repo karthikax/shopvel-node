@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
 	res.render('install', {
 		title: 'Install',
-		languages: { EN: 'english', HI: 'hindi' }
+		languages: { "en": "english", "hi": "hindi" }
 	});
 });
 
