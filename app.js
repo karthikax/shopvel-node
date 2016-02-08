@@ -8,7 +8,25 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var install = require('./routes/install');
 
+var i18n = require('i18next');
+var Backend = require('i18next-node-fs-backend');
+var middleware = require('i18next-express-middleware');
+
+i18n
+  .use(Backend)
+  .use(middleware.LanguageDetector)
+  .init({
+    backend: {
+      loadPath: 'locales/{{lng}}/{{ns}}.json',
+      addPath: 'locales/{{lng}}/{{ns}}.missing.json',
+    }
+  });
+
 var app = express();
+
+app.use(middleware.handle(i18n, {
+  removeLngFromUrl: false
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

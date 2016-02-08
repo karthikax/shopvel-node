@@ -1,0 +1,12 @@
+extends layout
+
+block content
+
+	.container.no-wrap
+		.content.languages
+			.title= title
+			.heading= t('myKey')
+			form(method='post')
+				select.list-only(name='language')
+					each language, code in languages
+						option(value=code)= language
