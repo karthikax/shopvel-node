@@ -2,12 +2,66 @@ extends layout
 
 block content
 
-	.container.no-wrap
-		.content.languages
-			.title= title
-			.heading Select Language
-			form(method='post')
-				select.list-only(name='language')
-					each language, code in languages
-						option(value=code)= language
-				button.btn.btn-success(type="submit") Select
+	if currStep == 1
+		.container.no-wrap
+			.content.languages
+				.title= title
+				.heading Select Language
+				form(method='post')
+					select.list-only(name='language')
+						each language, code in languages
+							option(value=code)= language
+					input(type="hidden", name="currStep", value= currStep)
+					button.btn.btn-success(type="submit") Select
+
+	if currStep == 2
+		.container.no-wrap
+			.content
+				.title= title
+				form.form-horizontal(method="post")
+					.form-group
+						label.col-sm-3.control-label(for="title") Site Title
+						.col-sm-9
+							input.form-control#title(type="text", name="title", placeholder="Shopvel")
+					.form-group
+						label.col-sm-3.control-label(for="username") Username *
+						.col-sm-9
+							input.form-control#username(type="text", name="username", placeholder="admin")
+						.col-sm-9.col-sm-offset-3
+							small Username can only have alphanumeric characters, underscores, hyphens, period and @ symbol
+
+					.form-group
+						label.col-sm-3.control-label(for='password') Password, Repeat *
+						.col-sm-9
+							input#password-meter.form-control(type='password', name='password')
+					.form-group
+						.col-sm-9.col-sm-offset-3
+							input#password-repeat.form-control(type='password', name='password2')
+						.col-sm-9.col-sm-offset-3
+							small Hint: Password should be at least 7 characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! @ # $ % ^ & ) ( .
+					.form-group
+						label.col-sm-3.control-label(for='email') Your Email *
+						.col-sm-9
+							input#email.form-control(type='email', name='email')
+						.col-sm-9.col-sm-offset-3
+							small Double check your email before continuing.
+					.form-group
+						label.col-sm-3.control-label(for='url') Admin Url
+						.col-sm-4
+							input.form-control(type='text', value=url, disabled='')
+						.col-sm-5
+							input#url.form-control(type='text', name='url', placeholder='admin')
+						.col-sm-9.col-sm-offset-3
+							small Define URL endpoint to access your admin dashboard.
+					.form-group
+						.col-sm-offset-3.col-sm-9
+							input(type='hidden', name='currStep', value=currStep)
+							button.btn.btn-success.btn-block(type='submit') Install Shopvel
+
+	if currStep == 3
+		.container.no-wrap
+			.content
+				.title= title
+				.col-sm-6.col-sm-offset-3
+					a.btn.btn-success.btn-block(href="") Login
+
