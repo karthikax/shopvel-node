@@ -1,5 +1,7 @@
-var express = require('express');
-var router = express.Router();
+var express	= require('express');
+var router	= express.Router();
+var Option	= require('../models/option');
+var User	= require('../models/user');
 
 /* GET install main. */
 router.get('/', function(req, res, next) {
@@ -23,7 +25,16 @@ router.post('/', function(req, res) {
 		});
 	}
 	if(req.body.currStep == "2"){
-		// Add documents to collections
+		var options = [
+			{ key: 'sitename', value: req.body.title },
+			{ key: 'admin_url', value: req.body.url }
+		];
+		Option.create(options, function(error) {
+			console.log('');
+		});
+		User.create({ name: '', username: req.body.username, email: req.body.email, password: req.body.password }, function(error, u) {
+			console.log(u);
+		});
 		res.render('install', {
 			currStep: 3,
 			title: 'Completed'
