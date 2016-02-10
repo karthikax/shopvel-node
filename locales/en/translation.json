@@ -1,3 +1,4 @@
 {
-	"myKey" : "Select Language"
+	"selectLang" : "Select Language",
+	"admin": "Admin Details"
 }

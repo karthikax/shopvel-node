@@ -13,9 +13,12 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res) {
 	if(req.body.currStep == "1"){
 		// set default language req.body.language
+		req.lng = req.body.language;
+
+		console.log( req.lng );
 		res.render('install', {
 			currStep: 2,
-			title: 'Admin Details',
+			title: 'admin',
 			url: req.get('host')+'/'
 		});
 	}
