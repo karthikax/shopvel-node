@@ -2,6 +2,19 @@ extends layout
 
 block content
 
+	if currStep == 0
+		.container.no-wrap
+			.content
+				.title Already installed.
+				.description
+					| You need to drop all tables in your database to reinstall.
+					br
+					| DANGER: By reinstalling you will loose all your data.
+				.col-sm-6
+					a.btn.btn-success.btn-block(href=url[1]) Login
+				.col-sm-6
+					a.btn.btn-success.btn-block(href=url[0]) Go Home
+
 	if currStep == 1
 		.container.no-wrap
 			.content.languages

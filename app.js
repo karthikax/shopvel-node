@@ -21,9 +21,9 @@ i18n
 .use(middleware.LanguageDetector)
 .init({
 	backend: {
-	loadPath: 'locales/{{lng}}/{{ns}}.json',
-	addPath: 'locales/{{lng}}/{{ns}}.missing.json',
-}
+		loadPath: 'locales/{{lng}}/{{ns}}.json',
+		addPath: 'locales/{{lng}}/{{ns}}.missing.json',
+	}
 });
 
 app.use(middleware.handle(i18n, {
@@ -42,6 +42,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function(req, res, next) {
+	req.rootUrl = req.protocol+'://'+req.get('host')+'/';
+	next();
+});
+
 app.use('/', routes);
 app.use('/install', install);
 
@@ -52,10 +57,7 @@ app.use(function(req, res, next) {
 	next(err);
 });
 
-// error handlers
-
-// development error handler
-// will print stacktrace
+// development error handler with stacktraces
 if (app.get('env') === 'development') {
 	app.use(function(err, req, res, next) {
 		res.status(err.status || 500);
@@ -66,8 +68,7 @@ if (app.get('env') === 'development') {
 	});
 }
 
-// production error handler
-// no stacktraces leaked to user
+// production error handler without stacktraces
 app.use(function(err, req, res, next) {
 	res.status(err.status || 500);
 	res.render('error', {
@@ -75,6 +76,5 @@ app.use(function(err, req, res, next) {
 		error: {}
 	});
 });
-
 
 module.exports = app;

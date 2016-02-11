@@ -5,10 +5,23 @@ var User	= require('../models/user');
 
 /* GET install main. */
 router.get('/', function(req, res, next) {
-	res.render('install', {
-		currStep: 1,
-		title: 'Install',
-		languages: { "en": "english", "hi": "hindi" }
+	var step = '';
+	var url = [];
+	Option.find(function(err, options) {
+		if (err)
+			res.send(err);
+		if(options.length == 0){
+			step = 1;
+		}else{
+			step = 0;
+			url = [req.rootUrl, req.rootUrl+'login'];
+		}
+		res.render('install', {
+			currStep: step,
+			title: 'Install',
+			languages: { "en": "english", "hi": "hindi" },
+			url: url
+		});
 	});
 });
 
