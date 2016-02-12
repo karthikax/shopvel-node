@@ -4,59 +4,8 @@ html
 		title= title
 		link(rel='stylesheet', href='/css/bootstrap.min.css')
 		link(rel='stylesheet', href='/css/style.css')
-		style(type='text/css').
-			body {
-				margin: 0;
-				padding: 0;
-				width: 100%;
-				font-weight: 400;
-				color: #727682;
-				background: #f8f8f8;
-			}
+		block styles
 
-			.container.no-wrap {
-				max-width: 800px;
-				margin-top: 50px;
-			}
-
-			.container.wrap {
-				text-align: center;
-				max-width: 800px;
-				margin-top: 50px;
-				background: #fff;
-				border: 1px solid #ccc;
-			}
-
-			.content {
-				text-align: center;
-				padding: 20px 0;
-			}
-
-			.title {
-				font-size: 56px;
-			}
-			.description{
-				margin-bottom: 20px;
-			}
-			.list-only + .styledSelect + .options {
-				min-width: 300px;
-				max-height: 200px;
-				overflow: auto;
-			}
-			.heading {
-				min-width: 300px;
-				background: #F6F6F7;
-				padding: 5px;
-				border: 2px solid #BBB;
-				border-bottom: 0;
-			}
-			.languages button{
-				margin-top: 220px;
-				min-width: 300px;
-			}
-			.alert ul{
-				list-style: none;
-			}
 	body
 		block content
 		script(src='/js/jquery-1.12.0.min.js')
