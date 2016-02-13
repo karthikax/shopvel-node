@@ -8,6 +8,9 @@ var mongoose	= require('mongoose');
 var i18n		= require('i18next');
 var Backend		= require('i18next-node-fs-backend');
 var middleware	= require('i18next-express-middleware');
+var session		= require('express-session');
+var passport	= require('passport');
+var ppLocal		= require('passport-local');
 var config		= require('./config');
 var routes		= require('./routes/index');
 var install		= require('./routes/install');
@@ -41,6 +44,24 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({secret: 'supernova', saveUninitialized: true, resave: true}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(function(req, res, next){
+	var err	= req.session.error,
+	msg		= req.session.notice,
+	suc		= req.session.success;
+	delete req.session.error;
+	delete req.session.success;
+	delete req.session.notice;
+	if (err) res.locals.error	= err;
+	if (msg) res.locals.notice	= msg;
+	if (suc) res.locals.success	= suc;
+	next();
+});
+
+require('./inc/middlewares');
 
 app.use(function(req, res, next) {
 	req.rootUrl = req.protocol+'://'+req.get('host')+'/';

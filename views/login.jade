@@ -1,0 +1,45 @@
+extends layout
+
+block styles
+	style(type='text/css').
+		.signin-wrap{
+			width: 400px;
+			margin: auto;
+			padding-top: 50px;
+		}
+		h3{
+			text-align: center;
+			background: #eee;
+			color: #BF1A1A;
+			border: 1px solid #ccc;
+			margin-top: 0;
+			padding: 10px;
+		}
+		.alert{
+			padding-left: 30px;
+		}
+		.p20{
+			padding-top: 20px;
+		}
+
+block content
+	.signin-wrap
+		h3 Sign In
+		if(error)
+			p.alert.alert-warning= error
+		if(success)
+			p.alert.alert-success= success
+		if(notice)
+			p.alert.alert-info= notice
+		form.form-signin(method='post')
+			.form-group
+				input.form-control(type='text', name='username', placeholder='Username', required='', autofocus='', value=username)
+			.form-group
+				input.form-control(type='password', name='password', placeholder='Password', required='')
+			.checkbox
+				label
+					input#remember(type='checkbox', value='remember', name='remember', {{='', ?='', :='', }}='')
+					| Remember me
+			button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign In
+			.p20.text-center Don't have an account? 
+				a(href=url) Sign Up
