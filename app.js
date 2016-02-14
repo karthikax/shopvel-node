@@ -11,9 +11,9 @@ var middleware	= require('i18next-express-middleware');
 var session		= require('express-session');
 var passport	= require('passport');
 var ppLocal		= require('passport-local');
-var config		= require('./config');
-var routes		= require('./routes/index');
-var install		= require('./routes/install');
+var config		= require('./app/config');
+var routes		= require('./app/routes/index');
+var install		= require('./app/routes/install');
 
 var app			= express();
 
@@ -34,7 +34,7 @@ app.use(middleware.handle(i18n, {
 }));
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'app/views'));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
@@ -61,7 +61,7 @@ app.use(function(req, res, next){
 	next();
 });
 
-require('./inc/middlewares');
+require('./app/middlewares');
 
 app.use(function(req, res, next) {
 	req.rootUrl = req.protocol+'://'+req.get('host')+'/';

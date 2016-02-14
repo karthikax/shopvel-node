@@ -1,6 +1,6 @@
 var bcrypt	= require('bcryptjs');
 var Q		= require('q');
-var User	= require('../models/user');
+var User	= require('./models/user');
 
 //used in local-signup strategy
 exports.localReg = function (username, password) {

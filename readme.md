@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/karthikax/shopvel-node.svg?branch=master)](https://travis-ci.org/karthikax/shopvel-node)
+
 ## Shopvel Node
 **Beautiful Ecommerce Software.**
 
