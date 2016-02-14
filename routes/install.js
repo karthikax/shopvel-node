@@ -1,5 +1,6 @@
 var express	= require('express');
 var router	= express.Router();
+var bcrypt	= require('bcryptjs');
 var Option	= require('../models/option');
 var User	= require('../models/user');
 
@@ -42,10 +43,11 @@ router.post('/', function(req, res) {
 			{ key: 'sitename', value: req.body.title },
 			{ key: 'admin_url', value: req.body.url }
 		];
+		var hash = bcrypt.hashSync(req.body.password, 8);
 		Option.create(options, function(error) {
 			console.log('');
 		});
-		User.create({ name: '', username: req.body.username, email: req.body.email, password: req.body.password }, function(error, u) {
+		User.create({ name: '', username: req.body.username, email: req.body.email, password: hash }, function(error, u) {
 			console.log(u);
 		});
 		res.render('install', {

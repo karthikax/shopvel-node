@@ -6,33 +6,16 @@ var User	= require('../models/user');
 exports.localReg = function (username, password) {
 	var deferred = Q.defer();
 	var hash = bcrypt.hashSync(password, 8);
-	var user = {
-		"username": username,
-		"password": hash,
-		"avatar": "http://placepuppy.it/images/homepage/Beagle_puppy_6_weeks.JPG"
-	}
 
 	//check if username is already assigned in our database
-	db.get('local-users', username)
-	.then(function (result){ //case in which user already exists in db
-		console.log('username already exists');
-		deferred.resolve(false); //username already exists
-	})
-	.fail(function (result) {//case in which user does not already exist in db
-		console.log(result.body);
-		if (result.body.message == 'The requested items could not be found.'){
-			console.log('Username is free for use');
-			db.put('local-users', username, user)
-			.then(function () {
-				console.log("USER: " + user);
-				deferred.resolve(user);
-			})
-			.fail(function (err) {
-				console.log("PUT FAIL:" + err.body);
-				deferred.reject(new Error(err.body));
+	User.where({ username: username }).findOne(function (err, user) {
+		if (user) {
+			deferred.resolve(false);
+		} else{
+			User.create({ name: '', username: username, email: '', password: hash }, function(error, u) {
+				deferred.resolve(u);
+				//deferred.reject(new Error(result.body));
 			});
-		} else {
-			deferred.reject(new Error(result.body));
 		}
 	});
 
@@ -48,35 +31,15 @@ exports.localAuth = function (username, password) {
 
 	var users  = User.where({ username: username });
 	users.findOne(function (err, user) {
-			console.log(user+ ' in func');
 		if (user) {
-			deferred.resolve(user);
+			if (bcrypt.compareSync(password, user.password)) {
+				deferred.resolve(user);
+			} else {
+				deferred.resolve(false);
+			}
 		} else{
 			deferred.resolve(false);
 		}
 	});
 	return deferred.promise;
-
-	// db.get('local-users', username)
-	// .then(function (result){
-	// 	console.log("FOUND USER");
-	// 	var hash = result.body.password;
-	// 	console.log(hash);
-	// 	console.log(bcrypt.compareSync(password, hash));
-	// 	if (bcrypt.compareSync(password, hash)) {
-	// 		deferred.resolve(result.body);
-	// 	} else {
-	// 		console.log("PASSWORDS NOT MATCH");
-	// 		deferred.resolve(false);
-	// 	}
-	// }).fail(function (err){
-	// 	if (err.body.message == 'The requested items could not be found.'){
-	// 		console.log("COULD NOT FIND USER IN DB FOR SIGNIN");
-	// 		deferred.resolve(false);
-	// 	} else {
-	// 		deferred.reject(new Error(err));
-	// 	}
-	// });
-
-	// return deferred.promise;
 }
