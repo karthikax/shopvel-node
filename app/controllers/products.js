@@ -7,6 +7,9 @@ var product	= require('../models/product');
 exports.get = function (req, res, next) {
     // Find all products
     product.find({}, function(err, p){
+        if (err) {
+            res.send({ message: err });
+        }
         res.json({ products: p });
     });
 };
@@ -14,6 +17,9 @@ exports.get = function (req, res, next) {
 exports.view = function (req, res, next) {
     // Find one product
     product.findById(req.params.pid, function(err, p){
+        if (err) {
+            res.send({ message: err });
+        }
         res.json({ products: p });
     });
 };
