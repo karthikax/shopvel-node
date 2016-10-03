@@ -3,10 +3,15 @@ var passport= require('passport');
 var router	= express.Router();
 var Product	= require('../models/product');
 var products= require('../controllers/products');
+var shopvel = require('shopvel');
 
-/*Product.create({ name: 'My Test Product' }, function(error, p) {
-	console.log(p);
-});*/
+shopvel.registerContentType('product', {
+	//pid: { type: String, required: true, index: { unique: true } },
+	slug: { type: String, required: true, index: { unique: true } },
+	name: String
+});
+
+router = shopvel.router(router);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -27,7 +32,7 @@ router.post('/login', passport.authenticate('local-signin', {
 	})
 );
 
-router.get('/products', products.get);
+//router.get('/products', products.get);
 router.get('/products/:pid', products.view);
 router.post('/products', products.create);
 router.put('/products/:pid', products.edit);

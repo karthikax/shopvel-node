@@ -5,4 +5,4 @@ var productSchema	= mongoose.Schema({
 	name: String
 });
 
-module.exports		= mongoose.model('Product', productSchema);
+//module.exports		= mongoose.model('Product', productSchema);
